@@ -176,10 +176,10 @@ void drawQuestion(const Question& questionArr)
   tft.setTextSize(2);
 
   drawCenteredText(questionArr.question.c_str(), 90, 10, 300, 140);
-  drawWordWithZAboveS(("A: " + questionArr.answerA).c_str(), 15, 170, 220, 70);
-  drawWordWithZAboveS(("B: " + questionArr.answerB).c_str(), 245, 170, 220, 70);
-  drawWordWithZAboveS(("C: " + questionArr.answerC).c_str(), 15, 250, 220, 70);
-  drawWordWithZAboveS(("D: " + questionArr.answerD).c_str(), 245, 250, 220, 70);
+  drawCenteredText(("A: " + questionArr.answerA).c_str(), 15, 170, 220, 70);
+  drawCenteredText(("B: " + questionArr.answerB).c_str(), 245, 170, 220, 70);
+  drawCenteredText(("C: " + questionArr.answerC).c_str(), 15, 250, 220, 70);
+  drawCenteredText(("D: " + questionArr.answerD).c_str(), 245, 250, 220, 70);
 }
 
 void checkAnswer(const Question& q, int chosen)
