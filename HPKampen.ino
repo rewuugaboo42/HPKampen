@@ -8,13 +8,16 @@
 #include <Adafruit_GFX.h>
 #include <MCUFRIEND_kbv.h>
 
+// Initializing the display library in order to write and read to it
 MCUFRIEND_kbv tft;
 
+// Digital pins
 constexpr int buttonA{ 53 };
 constexpr int buttonB{ 52 };
 constexpr int buttonC{ 51 };
 constexpr int buttonD{ 50 };
 
+// Abstraction of questions in order to create multiple questions easily
 class Question
 {
 public:
@@ -77,7 +80,7 @@ Question questionArray[] {
   {"snart sagt", "så gott som", "som väntat", "vanligtvis", "återkommande", 1},
   {"surrogat", "tillsats", "ersättning", "hjälpmedel", "avvikelse", 2},
   {"skälva", "krusa", "darra", "smälta", "närma", 2},
-  {"åderlåta", "uppnå", "smyga", "avstå", "tömma", 4},
+  {"åderlåta", "uppnå", "smyga", "avstå", "tömma", 4}
   /*{"bondsk", "lantlig", "självupptagen", "uppskattad", "besläktad", 1},
   {"således", "dessförinnan", "motsvarande", "visserligen", "följaktligen", 4},
   {"ackumulation", "tillvänjning", "avskiljande", "sammanställning", "anhopning", 4},
@@ -95,8 +98,10 @@ constexpr int numQuestions = sizeof(questionArray) / sizeof(questionArray[0]);
 
 void setup() 
 {
+  // Make sure the display library was initialized correctly and then initialize it to be able to read and write to it
   uint16_t identifier = tft.readID();
   tft.begin(identifier);
+
   tft.setRotation(3);
 
   pinMode(buttonA, INPUT_PULLUP);
@@ -113,6 +118,7 @@ void setup()
 
 void loop() 
 {
+  // Loop through all questions and draw them on the display
   for (int i{ 0 }; i < numQuestions; ++i)
   {
     drawQuestion(questionArray[i]);
@@ -154,9 +160,11 @@ void drawCenteredText(const char* text, int rectX, int rectY, int rectWidth, int
 
   tft.getTextBounds(modifiedText.c_str(), 0, 0, &x1, &y1, &w, &h);
 
+  // Gets the middle position of the rectangle
   int textX = rectX + (rectWidth - w) / 2;
   int textY = rectY + (rectHeight - h) / 2;
 
+  // Accounts for text height so it's truly in the middle of the rectangle
   textY += h / 2;
 
   tft.setCursor(textX, textY);
@@ -196,6 +204,7 @@ void checkAnswer(const Question& q, int chosen)
 
   delay(250);
 
+  //   
   if (chosen != q.rightAnswer)
   {
     switch (q.rightAnswer) 
@@ -215,7 +224,9 @@ void shuffleQuestions(Question array[], int n)
 {
     for (int i = n - 1; i > 0; i--) 
     {
+        // Gets a random question
         int j = random(0, i + 1);
+        // Swapping the previous question with the new one
         Question temp = array[i];
         array[i] = array[j];
         array[j] = temp;
